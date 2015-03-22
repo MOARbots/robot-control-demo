@@ -1,13 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "config.h"
 
-int main()
-{
+int main() {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 
-    while (window.isOpen())
-    {
+    std::cout << "Stuff which is buit in:\n";
+    #ifdef USE_JOYSTICK
+    std::cout << "Joystick support built in.\n";
+    #endif
+
+    while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -15,8 +18,13 @@ int main()
                 window.close();
         }
 
+        #ifdef USE_JOYSTICK
+        if (sf::Joystick::isConnected(0)) {
+            
+        }
+        #endif
+
         window.clear();
-        window.draw(shape);
         window.display();
     }
 
