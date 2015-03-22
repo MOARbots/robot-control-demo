@@ -5,10 +5,12 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
   set(CMAKE_BUILD_TYPE Debug)
 endif()
 
+option(USE_JOYSTICK "should we compile in joystick support?" ON)
+
 set(robot-control-demo_VERSION_MAJOR 1)
 set(robot-control-demo_VERSION_MINOR 0)
 configure_file(
-	"${PROJECT_SOURCE_DIR}/config.h.in"
+  "${PROJECT_SOURCE_DIR}/config.h.in"
   "${PROJECT_BINARY_DIR}/config.h"
 	)
 include_directories("${PROJECT_BINARY_DIR}")
