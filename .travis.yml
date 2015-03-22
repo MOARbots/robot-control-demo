@@ -1,6 +1,6 @@
 language: cpp
 install:
-  - sudo apt-get install sfml-dev cmake
+  - sudo apt-get install libsfml-dev cmake
 script:
   - mkdir build
   - cd build
