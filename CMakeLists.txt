@@ -24,3 +24,4 @@ find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR})
 
 add_executable(robot-control-demo src/main.cpp)
+target_link_libraries(robot-control-demo ${SDL2_LIBRARY})
