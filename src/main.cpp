@@ -20,11 +20,28 @@
 
 #include <SDL.h>
 
-int main(int argc, char** argv) {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+const int JOYSTICK_DEADBAND = 8000;
+
+SDL_Joystick* gameController;
+
+int main() {
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) {
 		std::cout << "SDL init error: " << SDL_GetError() << std::endl;
 		return 1;
 	}
-	SDL_Quit();
+
+	if (SDL_NumJoysticks() < 1) {
+		std::cout << "No controllers plugged in." << std::endl <<
+			"Please plug in a controller and run again." << std::endl;
+		return 1;
+	} else {
+		gameController = SDL_JoystickOpen(0);
+		if (gameController == NULL) {
+			std::cout << "Unable to open game controller: " << std::endl <<
+				"SDL error: " << SDL_GetError() << std::endl;
+			return 1;  
+		}
+	}
+
 	return 0;
 }
