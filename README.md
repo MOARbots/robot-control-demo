@@ -1,4 +1,5 @@
 # MOARbots controller demo
+[![Build Status](https://travis-ci.org/MOARbots/robot-control-demo.svg?branch=master)](https://travis-ci.org/MOARbots/robot-control-demo)
 
 Let's control MOARbots with a joystick!
 You need SDL 2 dev libraries, CMake, Make, and at least gcc/g++ 4.7. 
