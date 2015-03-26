@@ -1,4 +1,7 @@
 language: c++
+compiler:
+  - clang
+  - gcc
 install:
   - sudo apt-get install libsdl2-dev
 script:
