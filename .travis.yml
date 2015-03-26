@@ -3,7 +3,9 @@ compiler:
   - clang
   - gcc
 install:
-  - sudo apt-get install libsdl2-dev
+  - curl -O http://www.libsdl.org/release/SDL2-2.0.0.tar.gz
+  - tar -xzvf SDL2-2.0.0.tar.gz
+  - (cd SDL2-2.0.0 && ./configure && make && sudo make install)
 script:
   - mkdir build && cd build
   - cmake ..
