@@ -1,7 +1,7 @@
 # MOARbots controller demo
 
 Let's control MOARbots with a joystick!
-This **only works on Linux**, since we're using `/dev/input` block devices to get joystick data.
+You need SDL 2 dev libraries, CMake, Make, and at least gcc/g++ 4.7. 
 
 ### License:
 
