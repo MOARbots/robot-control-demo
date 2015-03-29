@@ -22,26 +22,47 @@
 
 const int JOYSTICK_DEADBAND = 8000;
 
-SDL_Joystick* gameController;
+SDL_Window* sdlWindow = NULL;
+
+SDL_Joystick* gameController = NULL;
+SDL_Haptic* hapticController = NULL;
+
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+
+bool initApp();
+void closeApp();
 
 int main() {
+	closeApp();
+	return 0;
+}
+
+bool initApp() {
 	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) != 0) {
 		std::cout << "SDL init error: " << SDL_GetError() << std::endl;
-		return 1;
+		return false;
 	}
 
 	if (SDL_NumJoysticks() < 1) {
 		std::cout << "No controllers plugged in." << std::endl <<
 			"Please plug in a controller and run again." << std::endl;
-		return 1;
+		return false;
 	} else {
 		gameController = SDL_JoystickOpen(0);
 		if (gameController == NULL) {
 			std::cout << "Unable to open game controller: " << std::endl <<
 				"SDL error: " << SDL_GetError() << std::endl;
-			return 1;  
+			return false;  
 		}
 	}
 
-	return 0;
+	sdlWindow = SDL_Cre
+}
+
+void closeApp() {
+	SDL_JoystickClose(gameController);
+	gameController = NULL;
+
+	SDL_Quit();
 }
