@@ -56,8 +56,6 @@ bool initApp() {
 			return false;  
 		}
 	}
-
-	sdlWindow = SDL_Cre
 }
 
 void closeApp() {
