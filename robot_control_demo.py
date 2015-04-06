@@ -22,19 +22,19 @@ class JoystickAbstractionLayer:
 		self.sticks = []
 
 	@property
-	def x1(self):
+	def y1(self):
 		return self.joystick.get_axis(1)
 
 	@property
-	def y1(self):
+	def x1(self):
 		return self.joystick.get_axis(0)
 
 	@property
-	def x2(self):
+	def y2(self):
 		return self.joystick.get_axis(3)
 
 	@property
-	def y2(self):
+	def x2(self):
 		return self.joystick.get_axis(2)
 
 def map(value, leftMin, leftMax, rightMin, rightMax):
@@ -51,28 +51,49 @@ def map(value, leftMin, leftMax, rightMin, rightMax):
 joystick = JoystickAbstractionLayer(joystickRaw)
 joystick_deadband = 10
 
-wixel = serial.Serial('/dev/ttyACM0', 9600)
+wixel = serial.Serial(sys.argv[1], 115200)
 
 while True:
 	pygame.event.pump()
 
 	for event in pygame.event.get():
 		if event.type == QUIT:
+			print("QUIT")
 			pygame.quit()
 			wixel.close()
 			sys.exit()
 
-	lside = map(joystick.x1, -1, 1, 100, -100)
-	rside = map(joystick.x2, -1, 1, 100, -100)
+	lside = map(abs(joystick.y1), 0, 1, 0, 255)
+	rside = map(abs(joystick.y2), 0, 1, 0, 255)
 	if (lside > 0 and lside < joystick_deadband) or (lside < 0 and lside > joystick_deadband):
 		lside = 0
 
 	if (rside > 0 and rside < joystick_deadband) or (rside < 0 and rside > joystick_deadband):
 		rside = 0
 
+	directionFlags = 0b00000000
+
+	if joystick.y1 < 0:
+		directionFlags |= (1 << 0)
+	else:
+		directionFlags &= ~(1 << 0)
+
+	if joystick.y2 < 0:
+		directionFlags |= (1 << 1)
+	else:
+		directionFlags &= ~(1 << 1)
+
 	lside = int(lside)
 	rside = int(rside)
 
-	print(str(lside) + " :: " + str(rside))
+
+	print(str(lside) + " :: " + str(rside) + " ::/:: " + str(bin(directionFlags)))
+
+
+	wixel.write(chr(0xFF))
+	wixel.write(chr(lside))
+	wixel.write(chr(rside))
+	wixel.write(chr(directionFlags))
+	wixel.write(chr(0xFF))
 
 	pygame.display.update()
